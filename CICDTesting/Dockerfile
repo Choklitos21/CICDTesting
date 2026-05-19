@@ -23,4 +23,4 @@ COPY --from=build /out .
 EXPOSE 80
 
 # Comando de inicio
-ENTRYPOINT ["dotnet", "cicdtesting.dll"]
+ENTRYPOINT ["dotnet", "CICDTesting.dll"]
