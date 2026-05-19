@@ -36,11 +36,13 @@ jobs:
 
       - name: Build and push Docker image
         run: |
+          REPO_LOWERCASE=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+
           # Construir la imagen Docker usando el Dockerfile
-          docker build -f Dockerfile -t ghcr.io/${{ github.repository }}:latest .
+          docker build -f Dockerfile -t ghcr.io/$REPO_LOWERCASE:latest .
 
           # Subir la imagen construida a GHCR
-          docker push ghcr.io/${{ github.repository }}:latest
+          docker push ghcr.io/$REPO_LOWERCASE:latest
 
   deploy:
     needs: build-and-push
