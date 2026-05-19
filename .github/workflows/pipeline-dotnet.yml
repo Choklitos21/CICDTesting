@@ -57,13 +57,13 @@ jobs:
           script: |
             echo "Conexión exitosa al VPS"
 
-            REPO_LOWERCASE=$(echo "${{ github.repository }}" | tr '[:upper:]' '[:lower:]')
+            REPO_LOWERCASE=$(echo "${GITHUB_REPOSITORY}" | tr '[:upper:]' '[:lower:]')
 
-            docker login ghcr.io -u "Choklitos21" -p ${{ secrets.TOKEN}} 
+            docker login ghcr.io -u "Choklitos21" -p ${{ secrets.TOKEN }}
             docker pull ghcr.io/$REPO_LOWERCASE:latest
-            docker stop ${{ github.event.repository.name }} || true
-            docker rm ${{ github.event.repository.name }} || true
+            docker stop ${{ GITHUB_REPOSITORY##*/ }} || true
+            docker rm ${{ GITHUB_REPOSITORY##*/ }} || true
 
-            docker run -d --name ${{ github.event.repository.name }} \
+            docker run -d --name ${{ GITHUB_REPOSITORY##*/ }} \
                          -p 8089:8080 \
                          ghcr.io/$REPO_LOWERCASE:latest
